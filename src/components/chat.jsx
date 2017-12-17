@@ -3,6 +3,8 @@ import React, {Component} from 'react';
 import ChatSlide from './chatslide';
 import MessageCreator from './messagecreator';
 import connectedUsers from './connectedusers';
+import PropertyCreator from './propertyCreator'
+
 import {read_cookie,bake_cookie} from 'sfcookies';
 
 import * as firebase from 'firebase';
@@ -32,14 +34,15 @@ class Chat extends Component{
 	componentDidMount(){
 		console.log('premountin');
 		var cookie=read_cookie(this.props.match.params.number);//meto la config en las cookies para que haga carga instantanea dsps
+		if (cookie.length==0||cookie.username==undefined||cookie.username==''){this.changeUsername(randomWords({exactly: 1}));console.log('no se encontro el usrnm',cookie.length==0,cookie.username==undefined,cookie.username=='');
+		}else{this.changeUsername(cookie.username);console.log('se encontro el username',cookie)}
 		this.setState({title:cookie.chatName,timeout:cookie.timeout,hasPassword:cookie.hasPassword,hasTimeout:cookie.hasTimeout});
 		messagesRef.child(this.props.match.params.number+'/properties').once('value').then((snapshot)=>{
 			snapshot.forEach(snap=>{
 				this.setState({title:snap.val().chatName,timeout:snap.val().timeout,hasPassword:snap.val().hasPassword,hasTimeout:snap.val().hasTimeout,hash:snap.val().hash});
-				bake_cookie(this.props.match.params.number,{title:snap.val().chatName,timeout:snap.val().timeout,hasPassword:snap.val().hasPassword,hasTimeout:snap.val().hasTimeout});
+				bake_cookie(this.props.match.params.number,{title:snap.val().chatName,timeout:snap.val().timeout,hasPassword:snap.val().hasPassword,hasTimeout:snap.val().hasTimeout,username:this.state.username});
 			})});
-		if (cookie.length==0||cookie.username==undefined||cookie.username==''){this.changeUsername(randomWords({exactly: 1}));
-		}else{this.changeUsername(cookie.username)}
+	
 		//TODO fix this shit resetting your username on every refresh
 	}
 
@@ -97,7 +100,10 @@ class Chat extends Component{
 				left:'0',width:'100%',
 				background:'#3399ff'}}>
 				<div style={passStyle}>
-					<h1>this chat is password protected</h1>
+					<div style={{margin:'0 auto',width: '600px',height:'auto'}}>
+						<span style={{fontSize:'50px',float:'left'}} class="glyphicon glyphicon-exclamation-sign"></span>
+						<h1 style={{padding:'auto'}}>this chat is password protected</h1>
+					</div>
 					<div class="input-group"
 						style={{width:'50%',margin:'auto'}}>
 	    			<span class="input-group-addon">password:</span>
@@ -113,11 +119,13 @@ class Chat extends Component{
 							onClick={()=>{this.verifyPassword()}}>set</button>
 						</span>
 				</div>
+				<div style={{width:'50%',margin:'auto'}}>{this.state.passStatus}</div>
 				</div>
 
-
-				<div style={configStyle}>config generator</div>
-
+				<div style={configStyle}>
+					<h2 style={{display:'block',margin:'auto'}}>It seems you are the first here. Start this chat room!</h2>
+					<PropertyCreator  text="set properties" directory={this.props.match.params.number}/>
+				</div>
 
 				<div style={{position:'absolute',
 					top:'0',height:'10%',left:'0',width:'100%',borderBottom: '1px solid #D8D8D8'}}>
@@ -157,5 +165,6 @@ class Chat extends Component{
 }
 
 //TODO add all timeot functionality
+//TODO remove the hardcoding on title centering
 
 export default Chat;
