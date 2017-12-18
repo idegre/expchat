@@ -51,35 +51,39 @@ class PropertyCreator extends Component{
 	  	marginBottom:'5px'};
 
 		return(
-					<div>
-						<div class="input-group"
-						style={inputfieldStyle}>
-							<span class="input-group-addon">Name:</span>
-							<input
-							class={this.state.class}
-							type="text"
-							placeholder={this.state.placeHolderName}
-							className="form-control"
-							onChange={event=>this.setState({chatName:event.target.value})}
-							onKeyPress={event=>{if (event.key==='Enter'){}}}
-							/>
-					</div>
-					<div style={{width:'100%'}}> 
-						<div style={inputfieldStyle}>
-						<div class="input-group" >
-							<span class="input-group-addon">password:</span>
+			<div>
+				<form class="form-inline" style={{position:'relative',left:'25%'}}>
+
+					<div class="form-row" style={{marginBottom:'5px'}}>
+						<div class="input-group" style={{width:'50%'}}>
+							<div class="input-group-addon" style={{width:'80px'}}>Title:</div>
 							<input
 								type="text"
-								placeholder="leave blank for none"
+								placeholder={this.state.placeHolderName}
 								className="form-control"
-								onChange={event=>this.setState({password:event.target.value})}
-								/>
+								onChange={event=>this.setState({timeout:event.target.value})}/>
 						</div>
-						</div>
-						<div style={{position:'absolute',left:'75.5%',top:'12%',fontSize:'25px'}} class="glyphicon glyphicon-info-sign"></div>
+						<span class="glyphicon glyphicon-info-sign" style={{fontSize:'20px',verticalAlign:'middle',margin:'5px'}}></span>
 					</div>
-					<button type="button" class="btn btn-success" style={{display:'block',marginLeft:'auto',marginRight:'auto'}} onClick={()=>{this.createChat()}}>{this.props.text}</button>
-				</div>
+
+					<div class="form-row" style={{marginBottom:'5px'}}>
+						<div class="input-group" style={{width:'50%'}}>
+									<span class="input-group-addon" style={{width:'100px'}}>password:</span>
+									<input
+										type="text"
+										placeholder="leave blank for none"
+										className="form-control"
+										onChange={event=>this.setState({password:event.target.value})}/>
+						</div>
+						<span class="glyphicon glyphicon-info-sign" style={{fontSize:'20px',verticalAlign:'middle',margin:'5px'}}></span>
+					</div>
+				</form>
+				<button
+					  type="button"
+					  class="btn btn-success"
+					  style={{display:'block',margin:'auto'}}
+					  onClick={()=>{this.createChat()}}>{this.props.text}</button>
+			</div>
 		)
 	}//the height in the info ball is totally broken, try the same with a relative prosition
 }
@@ -99,4 +103,32 @@ export default PropertyCreator;
 						
 					</div>
 *///this will go unimplemented for now
+//style={{position:'relative',left:'75%',fontSize:'25px','}}
 
+/*<div>
+						<div class="input-group"
+						style={inputfieldStyle}>
+							<span class="input-group-addon">Name:</span>
+							<input
+							class={this.state.class}
+							type="text"
+							placeholder={this.state.placeHolderName}
+							className="form-control"
+							onChange={event=>this.setState({chatName:event.target.value})}
+							onKeyPress={event=>{if (event.key==='Enter'){}}}
+							/>
+						</div> 
+						<form class="form-inline" style={inputfieldStyle}>
+							<div class="form-row  align-items-center">
+								<div class="input-group ">
+									<span class="input-group-addon">password:</span>
+									<input
+										style={{}}
+										type="text"
+										placeholder="leave blank for none"
+										className="form-control"
+										onChange={event=>this.setState({password:event.target.value})}/>
+								</div> 
+								<div  class="glyphicon glyphicon-info-sign" style={{fontSize:'20px'}}></div>
+						  </div>
+						</form>*/
