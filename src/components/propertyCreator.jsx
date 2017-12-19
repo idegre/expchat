@@ -63,7 +63,9 @@ class PropertyCreator extends Component{
 								className="form-control"
 								onChange={event=>this.setState({timeout:event.target.value})}/>
 						</div>
-						<span class="glyphicon glyphicon-info-sign" style={{fontSize:'20px',verticalAlign:'middle',margin:'5px'}}></span>
+						<span class="glyphicon glyphicon-info-sign infoButton" id="titleButton" style={{fontSize:'20px',verticalAlign:'middle',margin:'5px'}}>
+							<div style={{display:'inline-block'}} className="infoBlock" id="titleInfo"></div>
+						</span>
 					</div>
 
 					<div class="form-row" style={{marginBottom:'5px'}}>

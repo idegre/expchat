@@ -31,6 +31,7 @@ class Home extends Component{
 				}}>
 				<h1 style={{textAlign:'center'}}>tinychat</h1>
 				<PropertyCreator text="start a new chat" dir={randomWords({exactly: 1})+randomWords({exactly: 1})+randomWords({exactly: 1})}/>
+				<div style={{position:'absolute',top:'40%',fontSize:'20px',textAlign:'center',width:'100%'}}>Just create a new chat, share the URL and chat...</div>
 			</div>
 		)
 	}

@@ -1,21 +1,10 @@
-
-.info-thing{
-	border-radius: 20px;
-	height: 20px;
-	width: 20px;
-	border-style: solid;
-	border-color: black;
-	text-align: center;
-	float:left;
+.infoButton{
+	color:black;
+}
+.infoBlock{
+	color: black;
+}
+#titleButton:hover #titleInfo{
+	color: black;
 }
 
-
-.info-thing hover{
-	border-color: red;
-}
-.input-group {
-    position: relative;
-    width: auto;
-    display: table; 
-    border-collapse: separate;
-}
