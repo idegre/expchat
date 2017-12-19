@@ -61,7 +61,7 @@ class PropertyCreator extends Component{
 								type="text"
 								placeholder={this.state.placeHolderName}
 								className="form-control"
-								onChange={event=>this.setState({timeout:event.target.value})}/>
+								onChange={event=>this.setState({chatName:event.target.value})}/>
 						</div>
 						<span class="glyphicon glyphicon-info-sign infoButton" id="titleButton" style={{fontSize:'20px',verticalAlign:'middle',margin:'5px'}}>
 							<div style={{display:'inline-block'}} className="infoBlock" id="titleInfo"></div>
@@ -84,7 +84,7 @@ class PropertyCreator extends Component{
 					  type="button"
 					  class="btn btn-success"
 					  style={{display:'block',margin:'auto'}}
-					  onClick={()=>{this.createChat()}}>{this.props.text}</button>
+					  onClick={()=>{this.createChat();console.log(this.props.dir)}}>{this.props.text}</button>
 			</div>
 		)
 	}//the height in the info ball is totally broken, try the same with a relative prosition
