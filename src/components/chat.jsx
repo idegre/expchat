@@ -100,9 +100,9 @@ class Chat extends Component{
 				left:'0',width:'100%',
 				background:'#3399ff'}}>
 				<div style={passStyle}>
-					<div style={{margin:'0 auto',width: '600px',height:'auto'}}>
-						<span style={{fontSize:'50px',float:'left'}} class="glyphicon glyphicon-exclamation-sign"></span>
-						<h1 style={{padding:'auto'}}>this chat is password protected</h1>
+					<div style={{margin:'0 auto',width: '630px',height:'50px',marginTop:'20px',marginBottom:'20px',alignItems:'center'}}>
+						<div style={{fontSize:'50px',float:'left'}} class="glyphicon glyphicon-exclamation-sign"></div>
+						<div style={{marginLeft:'10px',fontSize:'40px',float:'right'}}>this chat is password protected</div>
 					</div>
 					<div class="input-group"
 						style={{width:'50%',margin:'auto'}}>
@@ -123,7 +123,7 @@ class Chat extends Component{
 				</div>
 
 				<div style={configStyle}>
-					<h2 style={{display:'block',margin:'auto'}}>It seems you are the first here. Start this chat room!</h2>
+					<h2 style={{marginTop:'20px',marginBottom:'20px',textAlign:'center'}}>It seems you are the first here. Start this chat room!</h2>
 					<PropertyCreator  text="set properties" directory={this.props.match.params.number}/>
 				</div>
 
