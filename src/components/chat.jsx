@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import ChatSlide from './chatslide';
 import MessageCreator from './messagecreator';
-import connectedUsers from './connectedusers';
+import ConnectedUsers from './connectedusers';
 import PropertyCreator from './propertyCreator'
 
 import {read_cookie,bake_cookie} from 'sfcookies';
@@ -48,13 +48,14 @@ class Chat extends Component{
 	}
 
 	changeUsername(usrnm){
+		var sessionKey='';
 		if(usrnm!=undefined){
 			this.setState({username:''+usrnm},()=>{this.forceUpdate();console.log(usrnm,this.state.username);});
 			bake_cookie(this.props.match.params.number,{username:''+usrnm});
-			a=messagesRef.child(this.props.match.params.number+'/conected/'+this.state.username)
+			a=messagesRef.child(this.props.match.params.number+'/connected/')
+			sessionKey=messagesRef.child(this.props.match.params.number+'/connected/').push({username:usrnm}).getKey()
 			a.on('value',(snapshot)=> {
-	    		messagesRef.child(this.props.match.params.number+'/conected/'+this.state.username).onDisconnect().remove();
-	   			messagesRef.child(this.props.match.params.number+'/conected/'+this.state.username).set(true);
+	   			messagesRef.child(this.props.match.params.number+'/connected/'+sessionKey).onDisconnect().remove();
 	   			});//holy shit it works
 		}
 		//document.location.reload();//tener en cuenta para apagar la coneccion cuando s ecambia e usuario, cuaidado con los loops
@@ -128,13 +129,12 @@ class Chat extends Component{
 
 				<div style={configStyle}>
 					<h2 style={{marginTop:'20px',marginBottom:'20px',textAlign:'center'}}>It seems you are the first here. Start this chat room!</h2>
-					<PropertyCreator  text="set properties" directory={this.props.match.params.number}/>
+					<PropertyCreator  text="set properties" dir={this.props.match.params.number}/>
 				</div>
 
 				<div style={{position:'absolute',
 					top:'0',height:'10%',left:'0',width:'100%',borderBottom: '1px solid #D8D8D8'}}>
-					<div>{this.props.match.params.number}</div>
-					<h1 style={{textAlign:'center',marginBottom:'auto',marginTop:'auto'}}>{this.state.title}</h1>
+					<h1 style={{textAlign:'center',verticalAlign: 'middle'}}>{this.state.title}</h1>
 				</div>
 
 
@@ -154,7 +154,7 @@ class Chat extends Component{
 						</span>
 					</div>
 					<div>current username:{this.state.username}</div>
-					<connectedUsers />
+					<ConnectedUsers chatDir={this.props.match.params.number} usrnm={this.state.username}/>
 				</div>
 
 
