@@ -64,7 +64,7 @@ class PropertyCreator extends Component{
 								onChange={event=>this.setState({chatName:event.target.value})}/>
 						</div>
 						<span class="glyphicon glyphicon-info-sign infoButton" id="titleButton" style={{fontSize:'20px',verticalAlign:'middle',margin:'5px'}}>
-							<div style={{display:'inline-block'}} className="infoBlock" id="titleInfo"></div>
+							<div style={{display:'inline-block'}} className="infoBlock" id="titleInfo">This will be the title on the chat-room not the URL</div>
 						</span>
 					</div>
 
@@ -77,7 +77,9 @@ class PropertyCreator extends Component{
 										className="form-control"
 										onChange={event=>this.setState({password:event.target.value})}/>
 						</div>
-						<span class="glyphicon glyphicon-info-sign" style={{fontSize:'20px',verticalAlign:'middle',margin:'5px'}}></span>
+						<span class="glyphicon glyphicon-info-sign infoButton" id="passButton" style={{fontSize:'20px',verticalAlign:'middle',margin:'5px'}}>
+							<div style={{display:'inline-block'}} className="infoBlock" id="passInfo">Using a password allows end-to-end encryption. Don't loose it as it can't be recovered.</div>
+						</span>
 					</div>
 				</form>
 				<button
