@@ -81,7 +81,9 @@ class PropertyCreator extends Component{
 							<div style={{display:'inline-block'}} className="infoBlock" id="passInfo">Using a password allows end-to-end encryption. Don't loose it as it can't be recovered.</div>
 						</span>
 					</div>
+
 				</form>
+
 				<button
 					  type="button"
 					  class="btn btn-success"

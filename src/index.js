@@ -15,6 +15,7 @@ ReactDOM.render(
 		<div>
 				<Route exact path='/' component={Home} />
     			<Route path='/chat/:number' component={Chat}/>
+    			<Route path='/chat' exact component={Home}/>
     			<Route path='*' component={NotFound} />
 		</div>
 	</Router>, document.getElementById('root'));

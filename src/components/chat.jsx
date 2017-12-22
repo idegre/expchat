@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 
 import ChatSlide from './chatslide';
 import MessageCreator from './messagecreator';
@@ -61,7 +62,7 @@ class Chat extends Component{
 
 	verifyPassword(){
 		if(passwordHash.verify(this.state.password,this.state.hash)){this.setState({passwordIsCorrect:true});console.log('pass was correct')}
-		else{console.log('pass was incorrect')}
+		else{console.log('pass was incorrect');this.setState({passStatus:'wrong password'});ReactDOM.findDOMNode(this.refs.passwordInput).value="";}
 			//TODO add sign to tell you the password was wrong
 	}
 
@@ -113,7 +114,7 @@ class Chat extends Component{
 							className="form-control"
 							onChange={event=>this.setState({password:event.target.value})}
 							onKeyPress={event=>{if(event.key==='Enter'){this.verifyPassword()}}}
-							/>
+							ref="passwordInput"/>
 						<span class="input-group-btn" >
 							<button class="btn btn-secondary" type="button" 
 							onClick={()=>{this.verifyPassword()}}>set</button>
@@ -121,6 +122,9 @@ class Chat extends Component{
 				</div>
 				<div style={{width:'50%',margin:'auto'}}>{this.state.passStatus}</div>
 				</div>
+
+
+
 
 				<div style={configStyle}>
 					<h2 style={{marginTop:'20px',marginBottom:'20px',textAlign:'center'}}>It seems you are the first here. Start this chat room!</h2>
