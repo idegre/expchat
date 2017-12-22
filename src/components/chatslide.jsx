@@ -19,9 +19,8 @@ class ChatSlide extends Component{
 
 		messagesRef.child(this.props.chatDir+'/messages').on('value',snap=>{
 			snap.forEach((message)=>{
-				if(this.state.keys.indexOf(message.key)<0){
+				if(this.state.keys.indexOf(message.key)<0){//chequea si ya tiene ese menasje
 					if(this.state.hasPass){
-
 						newMessages.push({text:encryptor.decrypt(message.val().message),user:encryptor.decrypt(message.val().user)});
 					}else{
 						newMessages.push({text:message.val().message,user:message.val().user});

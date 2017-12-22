@@ -12,15 +12,24 @@ class connectedUsers extends Component{
 	}
 
 	componentDidMount(){
-		messagesRef.child(this.props.chatDir+'/connected').on('value',snap=>{
-			snap.forEach(item=>{console.log('conn:',item.key);})
+		messagesRef.child(this.props.chatDir+'/connected/').on('value',snap=>{
+			var usrArray=[];
+			snap.forEach(item=>{
+				usrArray.push(item.val().username);
+				console.log('usr:',snap.val());
+			})
+			this.setState({currentUsers:usrArray});
+			console.log(usrArray)
 		})
 	}
 
 	render(){
 		return(
 			<div>
-			Users online:{}
+			Users online:{this.state.currentUsers.length}
+				<ul>
+					{this.state.currentUsers.map((usr)=>{return(<li>{usr}</li>)})}
+				</ul>
 			</div>
 			)
 	}
