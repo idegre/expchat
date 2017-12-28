@@ -44,97 +44,78 @@ class PropertyCreator extends Component{
 	}
 
 	render(){
-		var inputfieldStyle={
-			position:'relative',
-			left:'25%',
-	    width:'50%',
-	  	marginBottom:'5px'};
-
 		return(
 			<div>
-				<form class="form-inline" style={{position:'relative',left:'25%'}}>
+				<div class="container">
+					<div class="row">
+						<div class="col-md-2"></div>
 
-					<div class="form-row" style={{marginBottom:'5px'}}>
-						<div class="input-group" style={{width:'50%'}}>
-							<div class="input-group-addon" style={{width:'80px'}}>Title:</div>
-							<input
-								type="text"
-								placeholder={this.state.placeHolderName}
-								className="form-control"
-								onChange={event=>this.setState({chatName:event.target.value})}/>
+							<div class="col-md-8 nopadding">
+								<form class="form-inline">
+									<div class="form-row" style={{marginBottom:'5px'}}>
+										<div class="input-group" style={{width:'100%'}}>
+											<div class="input-group-addon" style={{width:'80px'}}>Title:</div>
+											<input
+												type="text"
+												placeholder={this.state.placeHolderName}
+												className="form-control"
+												onChange={event=>this.setState({chatName:event.target.value})}/>
+										</div>
+									</div>
+
+									<div class="form-row" style={{marginBottom:'5px'}}>
+										<div class="input-group" style={{width:'100%'}}>
+													<span class="input-group-addon" style={{width:'80px'}}>password:</span>
+													<input
+														type="text"
+														placeholder="leave blank for none"
+														className="form-control"
+														onChange={event=>this.setState({password:event.target.value})}/>
+										</div>
+									</div>
+								</form>
+
+								<button
+								  type="button"
+								  class="btn btn-success"
+								  style={{display:'block',margin:'auto'}}
+								  onClick={()=>{this.createChat();console.log(this.props.dir)}}>{this.props.text}</button>
+							</div>			
+
+							<div class="col-md-2 nopadding" style={{display:'table'}}>
+								<div style={{width:'30px',display:'table-cell'}}>
+									<span 
+										class="glyphicon glyphicon-info-sign infoButton" 
+										id="titleButton" 
+										style={{fontSize:'20px',verticalAlign:'middle',margin:'5px',height:'30px'}}
+										onClick={()=>{this.setState({titleBut:!this.state.titleBut})}}></span>
+									<span 
+										class="glyphicon glyphicon-info-sign infoButton" 
+										id="passButton" 
+										style={{fontSize:'20px',verticalAlign:'middle',margin:'5px',height:'30px'}}
+										onClick={()=>{this.setState({passBut:!this.state.passBut})}}></span>
+								</div>
+
+								<div style={{display:'table-cell'}}>
+									<div 
+										class={this.state.titleBut?'infoBlock visible':'infoBlock'}
+										className="infoBlock" 
+										id="titleInfo">
+											This will be the title on the chat-room not the URL
+									</div>
+									<div
+										class={this.state.passBut?'infoBlock visible':'infoBlock'}
+										className="infoBlock" 
+										id="passInfo">
+										Using a password allows end-to-end encryption. Don't loose it as it can't be recovered.
+									</div>
+								</div>
+							</div>
 						</div>
-						<span class="glyphicon glyphicon-info-sign infoButton" id="titleButton" style={{fontSize:'20px',verticalAlign:'middle',margin:'5px'}}>
-							<div style={{display:'inline-block'}} className="infoBlock" id="titleInfo">This will be the title on the chat-room not the URL</div>
-						</span>
 					</div>
 
-					<div class="form-row" style={{marginBottom:'5px'}}>
-						<div class="input-group" style={{width:'50%'}}>
-									<span class="input-group-addon" style={{width:'100px'}}>password:</span>
-									<input
-										type="text"
-										placeholder="leave blank for none"
-										className="form-control"
-										onChange={event=>this.setState({password:event.target.value})}/>
-						</div>
-						<span class="glyphicon glyphicon-info-sign infoButton" id="passButton" style={{fontSize:'20px',verticalAlign:'middle',margin:'5px'}}>
-							<div style={{display:'inline-block'}} className="infoBlock" id="passInfo">Using a password allows end-to-end encryption. Don't loose it as it can't be recovered.</div>
-						</span>
-					</div>
-
-				</form>
-
-				<button
-					  type="button"
-					  class="btn btn-success"
-					  style={{display:'block',margin:'auto'}}
-					  onClick={()=>{this.createChat();console.log(this.props.dir)}}>{this.props.text}</button>
 			</div>
 		)
-	}//the height in the info ball is totally broken, try the same with a relative prosition
+	}
 }
 export default PropertyCreator;
-
-/*
-					<div style={inputfieldStyle}>
-						<div class="input-group" style={{float:'left'}}>
-			    		<span class="input-group-addon">message timeout:</span>
-							<input
-								type="text"
-								placeholder="leave blank for none"
-								className="form-control"
-								onChange={event=>this.setState({timeout:event.target.value})}/>
-								
-						</div>
-						
-					</div>
-*///this will go unimplemented for now
-//style={{position:'relative',left:'75%',fontSize:'25px','}}
-
-/*<div>
-						<div class="input-group"
-						style={inputfieldStyle}>
-							<span class="input-group-addon">Name:</span>
-							<input
-							class={this.state.class}
-							type="text"
-							placeholder={this.state.placeHolderName}
-							className="form-control"
-							onChange={event=>this.setState({chatName:event.target.value})}
-							onKeyPress={event=>{if (event.key==='Enter'){}}}
-							/>
-						</div> 
-						<form class="form-inline" style={inputfieldStyle}>
-							<div class="form-row  align-items-center">
-								<div class="input-group ">
-									<span class="input-group-addon">password:</span>
-									<input
-										style={{}}
-										type="text"
-										placeholder="leave blank for none"
-										className="form-control"
-										onChange={event=>this.setState({password:event.target.value})}/>
-								</div> 
-								<div  class="glyphicon glyphicon-info-sign" style={{fontSize:'20px'}}></div>
-						  </div>
-						</form>*/

@@ -11,11 +11,7 @@ import {read_cookie,bake_cookie} from 'sfcookies';
 import * as firebase from 'firebase';
 import {messagesRef} from '../firebase';
 
-var randomWords = require('random-words');
-
 var passwordHash = require('password-hash');
-
-var a;
 
 class Chat extends Component{
 	constructor(props){
@@ -35,30 +31,15 @@ class Chat extends Component{
 	componentDidMount(){
 		console.log('premountin');
 		var cookie=read_cookie(this.props.match.params.number);//meto la config en las cookies para que haga carga instantanea dsps
-		if (cookie.length==0||cookie.username==undefined||cookie.username==''){this.changeUsername(randomWords({exactly: 1}));console.log('no se encontro el usrnm',cookie.length==0,cookie.username==undefined,cookie.username=='');
-		}else{this.changeUsername(cookie.username);console.log('se encontro el username',cookie)}
-		this.setState({title:cookie.chatName,timeout:cookie.timeout,hasPassword:cookie.hasPassword,hasTimeout:cookie.hasTimeout});
+		this.setState({title:cookie.chatName,timeout:cookie.timeout,hasPassword:cookie.hasPassword,hasTimeout:cookie.hasTimeout,username:cookie.username});
 		messagesRef.child(this.props.match.params.number+'/properties').once('value').then((snapshot)=>{
 			snapshot.forEach(snap=>{
 				this.setState({title:snap.val().chatName,timeout:snap.val().timeout,hasPassword:snap.val().hasPassword,hasTimeout:snap.val().hasTimeout,hash:snap.val().hash});
 				bake_cookie(this.props.match.params.number,{title:snap.val().chatName,timeout:snap.val().timeout,hasPassword:snap.val().hasPassword,hasTimeout:snap.val().hasTimeout,username:this.state.username});
 			})});
+
 	
 		//TODO fix this shit resetting your username on every refresh
-	}
-
-	changeUsername(usrnm){
-		var sessionKey='';
-		if(usrnm!=undefined){
-			this.setState({username:''+usrnm},()=>{this.forceUpdate();console.log(usrnm,this.state.username);});
-			bake_cookie(this.props.match.params.number,{username:''+usrnm});
-			a=messagesRef.child(this.props.match.params.number+'/connected/')
-			sessionKey=messagesRef.child(this.props.match.params.number+'/connected/').push({username:usrnm}).getKey()
-			a.on('value',(snapshot)=> {
-	   			messagesRef.child(this.props.match.params.number+'/connected/'+sessionKey).onDisconnect().remove();
-	   			});//holy shit it works
-		}
-		//document.location.reload();//tener en cuenta para apagar la coneccion cuando s ecambia e usuario, cuaidado con los loops
 	}
 
 	verifyPassword(){
@@ -132,31 +113,22 @@ class Chat extends Component{
 					<PropertyCreator  text="set properties" dir={this.props.match.params.number}/>
 				</div>
 
+
+
+
+
 				<div style={{position:'absolute',
 					top:'0',height:'10%',left:'0',width:'100%',borderBottom: '1px solid #D8D8D8'}}>
+					<div>{this.state.username}</div>
 					<h1 style={{textAlign:'center',verticalAlign: 'middle'}}>{this.state.title}</h1>
 				</div>
 
 
 				<div style={{position:'absolute',
 					top:'10%',height:'90%',left:'0',width:'20%',borderRight: '1px solid #D8D8D8'}}>
-					<div class="input-group">
-						<input
-						style={{background:'#80bfff'}}
-						type="text"
-						placeholder="username"
-						className="form-control"
-						onChange={event=>this.setState({usernamebox:event.target.value})}
-						onKeyPress={event=>{if (event.key==='Enter'){this.changeUsername(event.target.value);document.location.reload()}}}
-						/>
-						<span class="input-group-btn" >
-							<button class="btn btn-secondary" type="button" onClick={()=>{this.changeUsername(this.state.usernamebox);document.location.reload()}}>set</button>
-						</span>
-					</div>
-					<div>current username:{this.state.username}</div>
+					
 					<ConnectedUsers chatDir={this.props.match.params.number} usrnm={this.state.username}/>
 				</div>
-
 
 				<div style={{position:'absolute',
 					top:'10%',height:'90%',left:'20%',width:'80%'}}>
