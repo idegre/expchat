@@ -6,6 +6,10 @@ import MessageCreator from './messagecreator';
 import ConnectedUsers from './connectedusers';
 import PropertyCreator from './propertyCreator'
 
+import {changeUsernameAction} from '../actions';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux'; 
+
 import {read_cookie,bake_cookie} from 'sfcookies';
 
 import * as firebase from 'firebase';
@@ -28,24 +32,24 @@ class Chat extends Component{
 		}
 	}
 
-	componentDidMount(){
-		console.log('premountin');
+	componentWillMount(){
 		var cookie=read_cookie(this.props.match.params.number);//meto la config en las cookies para que haga carga instantanea dsps
-		this.setState({title:cookie.chatName,timeout:cookie.timeout,hasPassword:cookie.hasPassword,hasTimeout:cookie.hasTimeout,username:cookie.username});
+		var cookieUser=read_cookie(this.props.match.params.number+'user');
+		this.setState({title:cookie.chatName,timeout:cookie.timeout,hasPassword:cookie.hasPassword,hasTimeout:cookie.hasTimeout,username:cookieUser.username});
 		messagesRef.child(this.props.match.params.number+'/properties').once('value').then((snapshot)=>{
 			snapshot.forEach(snap=>{
 				this.setState({title:snap.val().chatName,timeout:snap.val().timeout,hasPassword:snap.val().hasPassword,hasTimeout:snap.val().hasTimeout,hash:snap.val().hash});
-				bake_cookie(this.props.match.params.number,{title:snap.val().chatName,timeout:snap.val().timeout,hasPassword:snap.val().hasPassword,hasTimeout:snap.val().hasTimeout,username:this.state.username});
+				bake_cookie(this.props.match.params.number,{title:snap.val().chatName,timeout:snap.val().timeout,hasPassword:snap.val().hasPassword,hasTimeout:snap.val().hasTimeout});
 			})});
+	}
 
-	
-		//TODO fix this shit resetting your username on every refresh
+	componentWillReceiveProps(nextProps) {
+		this.setState({username:nextProps.username.username},()=>{console.log('new user:',this.state.username)})
 	}
 
 	verifyPassword(){
 		if(passwordHash.verify(this.state.password,this.state.hash)){this.setState({passwordIsCorrect:true});console.log('pass was correct')}
 		else{console.log('pass was incorrect');this.setState({passStatus:'wrong password'});ReactDOM.findDOMNode(this.refs.passwordInput).value="";}
-			//TODO add sign to tell you the password was wrong
 	}
 
 	render(){
@@ -73,7 +77,7 @@ class Chat extends Component{
 				var configStyle={
 					zIndex:'-1',
 					visibility: 'hidden'}
-				};//TODO this also seems not to be working
+				};
 
 
 		return(
@@ -119,7 +123,6 @@ class Chat extends Component{
 
 				<div style={{position:'absolute',
 					top:'0',height:'10%',left:'0',width:'100%',borderBottom: '1px solid #D8D8D8'}}>
-					<div>{this.state.username}</div>
 					<h1 style={{textAlign:'center',verticalAlign: 'middle'}}>{this.state.title}</h1>
 				</div>
 
@@ -141,6 +144,12 @@ class Chat extends Component{
 }
 
 //TODO add all timeot functionality
-//TODO remove the hardcoding on title centering
 
-export default Chat;
+function mapStateToProps(state){
+	console.log('en el map state:',state)
+	return{
+		username:state
+	}
+}
+
+export default connect(mapStateToProps,null)(Chat);

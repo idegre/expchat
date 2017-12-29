@@ -27,7 +27,6 @@ class ChatSlide extends Component{
 					}
 					newKeys.push(message.key);
 				} else {console.log('ya tenia este')}
-				console.log('message:',message.val());
 			});
 			this.setState({messages:newMessages,keys:newKeys});
 		});
@@ -43,7 +42,6 @@ class ChatSlide extends Component{
 	}
 
 	render(){
-		console.log(this.props,this.state)
 		let messages=[];
 		messages = this.state.messages.map((message,index)=>(
 			<div>{message.user}:{message.text}</div>))//more TODO: make the test slide always acroll to the bottom
