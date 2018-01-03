@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 
 import {changeUsernameAction} from '../actions';
 import {connect} from 'react-redux';
@@ -23,13 +24,13 @@ class connectedUsers extends Component{
 	componentDidMount(){
 		this.changeUsername(this.props.usrnm);
 		messagesRef.child(this.props.chatDir+'/connected/').on('value',snap=>{
-				var usrArray=[];
-				messagesRef.child(this.props.chatDir+'/connected/'+this.state.usernameKey).onDisconnect().remove();
-				snap.forEach(item=>{
-					usrArray.push(item.val().username);
-				})
-				this.setState({currentUsers:usrArray});
-			})	
+			var usrArray=[];
+			messagesRef.child(this.props.chatDir+'/connected/'+this.state.usernameKey).onDisconnect().remove();
+			snap.forEach(item=>{
+				usrArray.push(item.val().username);
+			})
+			this.setState({currentUsers:usrArray});
+		})	
 	}
 
 	changeUsername(usrnm){//checks usernem avalibality and reduxes new username
@@ -43,6 +44,7 @@ class connectedUsers extends Component{
 			bake_cookie(this.props.chatDir+'user',{username:''+usrnm});
 			this.setState({usernameKey:usernameKey});
 			this.props.changeUsernameAction(usrnm);
+			ReactDOM.findDOMNode(this.refs.setUserBox).value="";
 		}
 		//document.location.reload();//tener en cuenta para apagar la coneccion cuando s ecambia e usuario, cuaidado con los loops
 	}
@@ -59,6 +61,7 @@ class connectedUsers extends Component{
 						type="text"
 						placeholder="username"
 						className="form-control"
+						ref="setUserBox"
 						onChange={event=>this.setState({usernamebox:event.target.value})}
 						onKeyPress={event=>{if (event.key==='Enter'){this.changeUsername(event.target.value);}}}
 						/>

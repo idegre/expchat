@@ -65,7 +65,7 @@ class PropertyCreator extends Component{
 
 									<div class="form-row" style={{marginBottom:'5px'}}>
 										<div class="input-group" style={{width:'100%'}}>
-													<span class="input-group-addon" style={{width:'80px'}}>password:</span>
+													<span class="input-group-addon" style={{width:'80px'}}>Password:</span>
 													<input
 														type="text"
 														placeholder="leave blank for none"
