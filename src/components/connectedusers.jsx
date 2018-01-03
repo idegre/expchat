@@ -17,35 +17,38 @@ class connectedUsers extends Component{
 		super(props);
 		this.state={
 			currentUsers:[],
-			usernameKey:null
+			username:null
 		}
 	}
 
 	componentDidMount(){
 		this.changeUsername(this.props.usrnm);
-		messagesRef.child(this.props.chatDir+'/connected/').on('value',snap=>{
+	}
+
+	componentWillReceiveProps(nextProps) {
+		messagesRef.child(nextProps.chatDir+'/connected/').on('value',snap=>{
 			var usrArray=[];
-			messagesRef.child(this.props.chatDir+'/connected/'+this.state.usernameKey).onDisconnect().remove();
+			messagesRef.child(nextProps.chatDir+'/connected/'+nextProps.usrnm).onDisconnect().remove();
 			snap.forEach(item=>{
-				usrArray.push(item.val().username);
+				usrArray.push(item.key);
 			})
 			this.setState({currentUsers:usrArray});
-		})	
+		})
 	}
 
 	changeUsername(usrnm){//checks usernem avalibality and reduxes new username
-		var usernameKey=this.state.usernameKey;
-		if(usrnm!=undefined){
-			if(this.state.usernameKey!=null){//check if a username entry was alredy made
-				messagesRef.child(this.props.chatDir+'/connected/'+usernameKey).set({username:usrnm});
-			}else{
-				usernameKey=messagesRef.child(this.props.chatDir+'/connected/').push({username:usrnm}).getKey();
-			}
-			bake_cookie(this.props.chatDir+'user',{username:''+usrnm});
-			this.setState({usernameKey:usernameKey});
-			this.props.changeUsernameAction(usrnm);
-			ReactDOM.findDOMNode(this.refs.setUserBox).value="";
+		let username=usrnm;
+		if(usrnm==undefined||usrnm==''){
+			username=randomWords({exactly: 1})+'';
 		}
+		if(this.state.username!=username&&this.state.username!=null){
+			messagesRef.child(this.props.chatDir+'/connected/'+this.state.username).remove();
+		}
+		messagesRef.child(this.props.chatDir+'/connected/'+username).set(true);
+		bake_cookie(this.props.chatDir+'user',{username:''+username});
+		this.props.changeUsernameAction(username);
+		this.setState({username:username});
+		ReactDOM.findDOMNode(this.refs.setUserBox).value="";
 		//document.location.reload();//tener en cuenta para apagar la coneccion cuando s ecambia e usuario, cuaidado con los loops
 	}
 
