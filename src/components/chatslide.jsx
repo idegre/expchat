@@ -26,7 +26,7 @@ class ChatSlide extends Component{
 						newMessages.push({text:message.val().message,user:message.val().user});
 					}
 					newKeys.push(message.key);
-				} else {console.log('ya tenia este')}
+				} else {}
 			});
 			this.setState({messages:newMessages,keys:newKeys});
 		});

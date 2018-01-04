@@ -35,13 +35,33 @@ class MessageCreator extends Component{
 		}
 	}
 
-	parseText(){
-		//this will search for the topics in the message
+	parseThemes(text){
+		var themeArray=[];
+		var nextTheme=-1;
+		do{
+			nextTheme=text.indexOf('#',nextTheme+1);//it jumps the previous theme
+			console.log('nexttheme:',nextTheme);
+			if(nextTheme!==-1){
+				if(text.indexOf(' ',nextTheme)!=-1){
+					console.log(text.substr(nextTheme+1,text.indexOf(' ',nextTheme)-nextTheme).toLowerCase(),nextTheme,text.indexOf(' ',nextTheme),'1');
+				}else{
+					if(text.indexOf('#',nextTheme+1)!=-1){
+						//has another hashtag but no space in between
+						console.log(text.substr(nextTheme+1,text.indexOf('#',nextTheme+1)-nextTheme-1).toLowerCase(),nextTheme,text.indexOf('#',nextTheme)-nextTheme,'2');
+					}else{
+						//the hasthtag reaches EOF
+						console.log(text.substr(nextTheme+1,text.length-nextTheme).toLowerCase(),nextTheme,text.length-nextTheme,'3');
+					}
+				}
+			}
+		}while(nextTheme!==-1);
+		return themeArray;
 	}
 
 	sendMessage(){
 		if(this.state.rawMessage!=''){
 			console.log('sending message');
+			this.parseThemes(this.state.rawMessage);
 			messagesRef.child(this.props.chatDir+'/messages').push(
 				{message:(this.state.hasPass)?encryptor.encrypt(this.state.rawMessage):this.state.rawMessage,
 				user:(this.state.hasPass)?encryptor.encrypt(this.props.usrnm):this.props.usrnm});
