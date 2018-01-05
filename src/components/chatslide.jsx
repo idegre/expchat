@@ -37,6 +37,7 @@ class ChatSlide extends Component{
 			this.setState({messages:[],keys:[],hasPass:true});//y aca tengo que borrar todo por si ya los bajo sin desencriptar
 			key=this.props.password+'passpasspasspass';
 			encryptor = require('simple-encryptor')(key);
+			this.setState({messages:[],keys:[]});
 			//TODO: find a way to make the messages reload on their own
 		}
 	}

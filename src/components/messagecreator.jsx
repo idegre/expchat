@@ -17,17 +17,7 @@ class MessageCreator extends Component{
 		}
 	}
 
-
-
-	componentDidUpdate(prevState){
-		if(this.props.password!=''&&key!='passpasspasspass'){//asi evito loops de set state
-			this.setState({hasPass:true});
-			key=this.props.password+'passpasspasspass';
-			encryptor = require('simple-encryptor')(key);;
-		}
-	}
-
-	componentDidUpdate(prevState){
+	componentDidUpdate(){
 		if(this.props.password!=''&&key=='passpasspasspass'){//asi evito loops de set state(solo corre si la key todavia no se actualizo)
 			this.setState({hasPass:true});
 			key=this.props.password+'passpasspasspass';
@@ -43,6 +33,7 @@ class MessageCreator extends Component{
 			console.log('nexttheme:',nextTheme);
 			if(nextTheme!==-1){
 				if(text.indexOf(' ',nextTheme)!=-1){
+					//normal one followed by a space
 					console.log(text.substr(nextTheme+1,text.indexOf(' ',nextTheme)-nextTheme).toLowerCase(),nextTheme,text.indexOf(' ',nextTheme),'1');
 				}else{
 					if(text.indexOf('#',nextTheme+1)!=-1){
